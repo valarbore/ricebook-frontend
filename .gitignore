@@ -8,3 +8,6 @@ stats.json
 .DS_Store
 npm-debug.log
 .idea
+
+# Get better editing experience for VS Code
+jsconfig.json

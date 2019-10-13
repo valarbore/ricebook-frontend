@@ -64,7 +64,8 @@ module.exports = {
     'no-use-before-define': 0,
     'prefer-template': 2,
     'react/destructuring-assignment': 0,
-    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/rules-of-hooks': 'error', // 检查 Hook 的规则
+    "react-hooks/exhaustive-deps": "warn", // 检查 effect 的依赖
     'react/jsx-closing-tag-location': 0,
     'react/forbid-prop-types': 0,
     'react/jsx-first-prop-new-line': [2, 'multiline'],

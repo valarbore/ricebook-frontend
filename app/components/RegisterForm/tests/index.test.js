@@ -1,6 +1,6 @@
 /**
  *
- * Tests for HomePage
+ * Tests for RegisterForm
  *
  * @see https://github.com/react-boilerplate/react-boilerplate/tree/master/docs/testing
  *
@@ -11,16 +11,15 @@ import { render } from 'react-testing-library';
 import { IntlProvider } from 'react-intl';
 // import 'jest-dom/extend-expect'; // add some helpful assertions
 
-import { HomePage } from '../index';
+import RegisterForm from '../index';
 import { DEFAULT_LOCALE } from '../../../i18n';
 
-describe('<HomePage />', () => {
+describe('<RegisterForm />', () => {
   it('Expect to not log errors in console', () => {
     const spy = jest.spyOn(global.console, 'error');
-    const dispatch = jest.fn();
     render(
       <IntlProvider locale={DEFAULT_LOCALE}>
-        <HomePage dispatch={dispatch} />
+        <RegisterForm />
       </IntlProvider>,
     );
     expect(spy).not.toHaveBeenCalled();
@@ -40,7 +39,7 @@ describe('<HomePage />', () => {
       container: { firstChild },
     } = render(
       <IntlProvider locale={DEFAULT_LOCALE}>
-        <HomePage />
+        <RegisterForm />
       </IntlProvider>,
     );
     expect(firstChild).toMatchSnapshot();

@@ -1,11 +1,12 @@
 import { createSelector } from 'reselect';
+import { initialState } from './reducer';
 
-const selectRouter = state => state.router;
+const selectGlobal = state => state.global || initialState;
 
-const makeSelectLocation = () =>
+const makeSelectUserAuth = () =>
   createSelector(
-    selectRouter,
-    routerState => routerState.location,
+    selectGlobal,
+    globalState => globalState.auth,
   );
 
-export { makeSelectLocation };
+export { makeSelectUserAuth };
