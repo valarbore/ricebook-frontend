@@ -11,3 +11,7 @@ npm-debug.log
 
 # Get better editing experience for VS Code
 jsconfig.json
+.vscode
+
+# boilerplate docs
+docs
