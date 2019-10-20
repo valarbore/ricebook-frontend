@@ -20,6 +20,9 @@ import LandingPage from 'containers/LandingPage';
 import HomePage from 'containers/HomePage';
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
+import ProfilePage from 'containers/ProfilePage';
+import NormalHeader from 'components/NormalHeader';
+import Footer from 'components/Footer';
 import GlobalStyle from '../../global-styles';
 import reducer from './reducer';
 import saga from './saga';
@@ -30,24 +33,22 @@ export function App({ auth, authenticate }) {
   useInjectReducer({ key: 'global', reducer });
   useInjectSaga({ key: 'global', saga });
   // check whether user authenticated with info in localstorage
+  const localAuth = localStorage.getItem('auth');
   useEffect(() => {
     if (!auth.isAuthenticated) {
-      const localAuth = localStorage.getItem('auth');
       if (localAuth) {
         // to do authenticate by using info in localstorage
-        authenticate();
+        authenticate(localAuth);
       }
     }
-  }, [auth.isAuthenticated, authenticate]);
-
-  window.console.log(auth.isAuthenticated);
+  }, [auth.isAuthenticated, authenticate, localAuth]);
   /* eslint-disable */
   function PrivateRoute({ children, ...rest }) {
     return (
       <Route
         {...rest}
         render={({ location }) =>
-          auth.isAuthenticated ? (
+        localAuth ? (
             children
           ) : (
             <Redirect
@@ -64,12 +65,19 @@ export function App({ auth, authenticate }) {
   /* eslint-enable */
 
   return (
-    <div>
+    <div className="page" id="page">
+      <NormalHeader />
       <Switch>
-        <PrivateRoute exact path="/" component={HomePage} />
+        <PrivateRoute exact path="/">
+          <HomePage />
+        </PrivateRoute>
+        <PrivateRoute path="/profile/:uid">
+          <ProfilePage />
+        </PrivateRoute>
         <Route exact path="/landing" component={LandingPage} />
         <Route component={NotFoundPage} />
       </Switch>
+      <Footer />
       <GlobalStyle />
     </div>
   );
@@ -85,7 +93,7 @@ const mapStateToProps = createStructuredSelector({
 
 export function mapDispatchToProps(dispatch) {
   return {
-    authenticate: () => dispatch({ type: constants.AUTHENTICATE }),
+    authenticate: auth => dispatch({ type: constants.AUTHENTICATE, auth }),
   };
 }
 

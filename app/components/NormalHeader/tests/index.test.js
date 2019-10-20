@@ -1,6 +1,6 @@
 /**
  *
- * Tests for RegisterForm
+ * Tests for NormalHeader
  *
  * @see https://github.com/react-boilerplate/react-boilerplate/tree/master/docs/testing
  *
@@ -8,20 +8,14 @@
 
 import React from 'react';
 import { render } from 'react-testing-library';
-import { IntlProvider } from 'react-intl';
 // import 'jest-dom/extend-expect'; // add some helpful assertions
 
-import RegisterForm from '../index';
-import { DEFAULT_LOCALE } from '../../../i18n';
+import NormalHeader from '../index';
 
-describe('<RegisterForm />', () => {
+describe('<NormalHeader />', () => {
   it('Expect to not log errors in console', () => {
     const spy = jest.spyOn(global.console, 'error');
-    render(
-      <IntlProvider locale={DEFAULT_LOCALE}>
-        <RegisterForm />
-      </IntlProvider>,
-    );
+    render(<NormalHeader />);
     expect(spy).not.toHaveBeenCalled();
   });
 
@@ -37,11 +31,7 @@ describe('<RegisterForm />', () => {
   it.skip('Should render and match the snapshot', () => {
     const {
       container: { firstChild },
-    } = render(
-      <IntlProvider locale={DEFAULT_LOCALE}>
-        <RegisterForm />
-      </IntlProvider>,
-    );
+    } = render(<NormalHeader />);
     expect(firstChild).toMatchSnapshot();
   });
 });

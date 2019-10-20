@@ -10,7 +10,17 @@ const selectLandingPageDomain = state => state.landingPage || initialState;
 /**
  * Other specific selectors
  */
+const makeSelectLoginInfo = () =>
+  createSelector(
+    selectLandingPageDomain,
+    substate => substate.loginInfo,
+  );
 
+const makeSelectRegisterInfo = () =>
+  createSelector(
+    selectLandingPageDomain,
+    substate => substate.registerInfo,
+  );
 /**
  * Default selector used by LandingPage
  */
@@ -21,4 +31,9 @@ const makeSelectCurrentType = () =>
     substate => substate.currentType,
   );
 
-export { selectLandingPageDomain, makeSelectCurrentType };
+export {
+  selectLandingPageDomain,
+  makeSelectCurrentType,
+  makeSelectLoginInfo,
+  makeSelectRegisterInfo,
+};

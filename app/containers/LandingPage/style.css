@@ -1,0 +1,18 @@
+.card {
+  padding: 50px;
+  margin: 100px auto 100px auto;
+  width: 700px;
+  height: 600px;
+  position: relative;
+}
+.link-button {
+  width: 300px;
+  position: absolute;
+  bottom: 15px;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+}
+.error-hint {
+  color: red;
+}

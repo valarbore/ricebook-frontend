@@ -4,10 +4,44 @@
  *
  */
 
-import { CHANGE_TYPE } from './constants';
+import * as constants from './constants';
 
-export function changeType() {
+export function changeTypeAction() {
   return {
-    type: CHANGE_TYPE,
+    type: constants.CHANGE_TYPE,
+  };
+}
+export function loginErrorAction(error) {
+  return {
+    type: constants.LOGIN_ERROR,
+    error,
+  };
+}
+export function loginSuccessAction() {
+  return {
+    type: constants.LOGIN_SUCCESS,
+  };
+}
+export function setLoginInfoAction(key, value) {
+  return {
+    type: constants.SET_LOGIN_INFO,
+    key,
+    value,
+  };
+}
+
+export function setRegisterInfoAction(key, value) {
+  return {
+    type: constants.SET_REGISTER_INFO,
+    key,
+    value,
+  };
+}
+
+export function setRegisterInfoValidAction(key, value) {
+  return {
+    type: constants.SET_REGISTER_INFO_VALID,
+    key,
+    value,
   };
 }

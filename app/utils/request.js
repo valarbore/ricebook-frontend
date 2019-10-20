@@ -29,6 +29,10 @@ function checkStatus(response) {
   throw error;
 }
 
+const defaultOption = {
+  method: 'GET',
+  headers: { 'Content-type': 'application/json; charset=UTF-8' },
+};
 /**
  * Requests a URL, returning a promise
  *
@@ -38,7 +42,8 @@ function checkStatus(response) {
  * @return {object}           The response data
  */
 export default function request(url, options) {
-  return fetch(url, options)
+  const newOption = Object.assign(options, defaultOption);
+  return fetch(url, newOption)
     .then(checkStatus)
     .then(parseJSON);
 }

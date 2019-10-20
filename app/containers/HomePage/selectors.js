@@ -10,7 +10,22 @@ const selectHomePageDomain = state => state.homePage || initialState;
 /**
  * Other specific selectors
  */
+export const makeSelectFriends = () =>
+  createSelector(
+    selectHomePageDomain,
+    substate => substate.friends,
+  );
+export const makeSelectError = () =>
+  createSelector(
+    selectHomePageDomain,
+    substate => substate.errors,
+  );
 
+export const makeSelectPosts = () =>
+  createSelector(
+    selectHomePageDomain,
+    substate => substate.posts,
+  );
 /**
  * Default selector used by HomePage
  */
@@ -22,4 +37,3 @@ const makeSelectHomePage = () =>
   );
 
 export default makeSelectHomePage;
-export { selectHomePageDomain };

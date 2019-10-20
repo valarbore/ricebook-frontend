@@ -8,14 +8,25 @@
  */
 
 import produce from 'immer';
-import { UPDATE_AUTH } from './constants';
-
+import { UPDATE_AUTH, UPDATE_USER } from './constants';
 // The initial state of the App
 export const initialState = {
   auth: {
     token: null,
     id: null,
     isAuthenticated: false,
+  },
+  user: {
+    id: '',
+    username: '',
+    avatar: null,
+    email: '',
+    phone: '',
+    address: {
+      zipcode: '',
+      street: '',
+    },
+    status: '',
   },
 };
 
@@ -25,6 +36,10 @@ const appReducer = (state = initialState, action) =>
     switch (action.type) {
       case UPDATE_AUTH:
         draft.auth = action.auth;
+        break;
+      case UPDATE_USER:
+        console.log('updateUser', action.user);
+        draft.user = Object.assign({}, state.user, action.user);
         break;
     }
   });

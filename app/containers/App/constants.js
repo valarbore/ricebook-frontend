@@ -9,4 +9,6 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 export const UPDATE_AUTH = 'App/UPDATE_AUTH';
+export const UPDATE_USER = 'App/UPDATE_USER';
 export const AUTHENTICATE = 'App/AUTHENTICATE';
+export const LOG_OUT = 'App/LOG_OUT';
