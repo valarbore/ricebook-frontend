@@ -64,6 +64,10 @@ export function* handleLogin(action) {
 function* watchHandleLogin() {
   yield takeLatest(HANDLE_LOGIN, handleLogin);
 }
+/**
+ * register
+ * @param {*} action register info
+ */
 export function* handleRegister(action) {
   // todo
   // register success
@@ -81,7 +85,7 @@ export function* handleRegister(action) {
     username: action.registerInfo.username.value,
     email: action.registerInfo.email.value,
     phone: action.registerInfo.phone.value,
-    zipcode: action.registerInfo.zipcode.value,
+    address: { zipcode: action.registerInfo.zipcode.value, street: '123456' },
     avatar,
   };
   localStorage.setItem('user', JSON.stringify(user));
