@@ -8,7 +8,7 @@ import { IMAGES } from '../../mock/postImages/images';
 import { STATUS } from '../../mock/status';
 import { DATES } from '../../mock/dates';
 import { makeSelectUser } from '../App/selectors';
-import { makeSelectPosts } from './selectors';
+import { makeSelectPosts, makeSelectFriends } from './selectors';
 export function* getFriends(action) {
   // todo get friends from server
   const url = 'https://jsonplaceholder.typicode.com/users';
@@ -39,16 +39,33 @@ export function* addFriend(action) {
       user => action.friend.toLowerCase() === user.username.toLowerCase(),
     );
     if (friend.length > 0) {
+      const user = yield select(makeSelectUser());
+      const friends = yield select(makeSelectFriends());
+      const newFriend = friend[0];
+      if (newFriend.id === user.id) {
+        yield put(actions.addFriendErrorAction(`You can't add yourself`));
+      } else if (friends.filter(f => f.id === newFriend.id).length > 0) {
+        yield put(
+          actions.addFriendErrorAction(
+            `You already have friend ${action.friend}`,
+          ),
+        );
+      } else {
+        yield put(
+          actions.addFriendSuccessAction(
+            Object.assign(friend[0], {
+              avatar: AVATARS[friend[0].id % AVATARS.length],
+              status: STATUS[friend[0].id % STATUS.length],
+            }),
+          ),
+        );
+      }
+    } else {
       yield put(
-        actions.addFriendSuccessAction(
-          Object.assign(friend[0], {
-            avatar: AVATARS[friend[0].id % AVATARS.length],
-            status: STATUS[friend[0].id % STATUS.length],
-          }),
+        actions.addFriendErrorAction(
+          `Can't find ${action.friend}! Try other registered user.`,
         ),
       );
-    } else {
-      yield put(actions.addFriendErrorAction(`Can't find ${action.friend}`));
     }
   } catch (err) {
     yield put(actions.getFriendsErrorAction(err));
