@@ -45,7 +45,12 @@ export function addFriendSuccessAction(friend) {
     friend,
   };
 }
-
+export function unfollowFriendAction(friend) {
+  return {
+    type: constants.UNFOLLOW_FRIEND,
+    friend,
+  };
+}
 export function unfollowFriendSuccessAction(friend) {
   return {
     type: constants.UNFOLLOW_FRIEND_SUCCESS,

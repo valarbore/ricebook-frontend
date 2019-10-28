@@ -1,6 +1,11 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 export default function FriendItem({ friend, unfollowFriend }) {
+  FriendItem.propTypes = {
+    friend: PropTypes.object,
+    unfollowFriend: PropTypes.func,
+  };
   return (
     <div className="home-page-list-item-container">
       <img

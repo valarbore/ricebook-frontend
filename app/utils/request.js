@@ -43,7 +43,8 @@ const defaultOption = {
  */
 export default function request(url, options) {
   const newOption = Object.assign(options, defaultOption);
-  return fetch(url, newOption)
+  const api = 'https://jsonplaceholder.typicode.com';
+  return fetch(api + url, newOption)
     .then(checkStatus)
     .then(parseJSON);
 }

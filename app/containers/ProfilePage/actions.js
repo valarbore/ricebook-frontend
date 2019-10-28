@@ -4,11 +4,11 @@
  *
  */
 
-import { UPDATE_AVATAR } from './constants';
+import * as constants from './constants';
 
-export function updateAvatar(avatar) {
+export function updateAvatarAction(avatar) {
   return {
-    type: UPDATE_AVATAR,
+    type: constants.UPDATE_AVATAR,
     avatar,
   };
 }

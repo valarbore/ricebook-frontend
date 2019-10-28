@@ -38,7 +38,7 @@ const appReducer = (state = initialState, action) =>
         draft.auth = action.auth;
         break;
       case UPDATE_USER:
-        console.log('updateUser', action.user);
+        // console.log('updateUser', action.user);
         draft.user = Object.assign({}, state.user, action.user);
         break;
     }

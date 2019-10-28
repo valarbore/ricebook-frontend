@@ -77,4 +77,13 @@ export default defineMessages({
     id: `${scope}.zipcodePlaceholder`,
     defaultMessage: 'Please enter your zip zode ',
   },
+  loginErrorHint: {
+    id: `${scope}.loginErrorHint`,
+    defaultMessage:
+      'Username or Password wrong! Try username: Bret password: Kulas Light',
+  },
+  registerErrorUserexistHint: {
+    id: `${scope}.registerErrorUserexistHint`,
+    defaultMessage: 'Register fail! Username already exists!',
+  },
 });

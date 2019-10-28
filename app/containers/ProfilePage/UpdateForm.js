@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { Form, Button, Col, Row } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import { validatePhone, validateZipcode } from '../../utils/validates';
 export default function UpdateForm({ user, updateUser }) {
+  UpdateForm.propTypes = {
+    user: PropTypes.object,
+    updateUser: PropTypes.func,
+  };
   const initialUserInfo = {
     username: '',
     email: '',

@@ -1,15 +1,8 @@
-/**
- * Test sagas
- */
-
-/* eslint-disable redux-saga/yield-effects */
-// import { take, call, put, select } from 'redux-saga/effects';
-// import profilePageSaga from '../saga';
-
-// const generator = profilePageSaga();
-
-describe('profilePageSaga Saga', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+import profilePageSaga from '../saga';
+describe('profilePageSaga', () => {
+  it('start watch', () => {
+    const generaotr = profilePageSaga();
+    const decriptor = generaotr.next().done;
+    expect(decriptor).toEqual(true);
   });
 });

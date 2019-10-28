@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
-import { Form, FormControl, Button, Row, Col } from 'react-bootstrap';
+import { Form, FormControl, Button } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 export default function Search({ searchPost }) {
+  Search.propTypes = {
+    searchPost: PropTypes.func,
+  };
   const [searchContent, setSearchContent] = useState('');
   return (
     <Form

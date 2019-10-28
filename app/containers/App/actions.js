@@ -1,14 +1,25 @@
-import * as contants from './constants';
+import * as constants from './constants';
+
+export function authenticateAction(auth) {
+  return { type: constants.AUTHENTICATE, auth };
+}
 export function updateUserAction(user) {
   return {
-    type: contants.UPDATE_USER,
+    type: constants.UPDATE_USER,
     user,
   };
 }
 
 export function logoutAction(user) {
   return {
-    type: contants.LOG_OUT,
+    type: constants.LOG_OUT,
     user,
+  };
+}
+
+export function updateAuthAction(auth) {
+  return {
+    type: constants.UPDATE_AUTH,
+    auth,
   };
 }

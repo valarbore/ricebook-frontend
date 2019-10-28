@@ -19,6 +19,9 @@ export const initialState = {
     },
   },
   registerInfo: {
+    hasError: false,
+    showHingt: false,
+    hint: '',
     username: {
       value: '',
     },
@@ -50,6 +53,7 @@ const landingPageReducer = (state = initialState, action) =>
       case constants.CHANGE_TYPE:
         draft.currentType =
           state.currentType === 'login' ? 'register' : 'login';
+        draft.registerInfo.showHingt = false;
         break;
       case constants.LOGIN_ERROR:
         draft.loginInfo.hasError = true;
@@ -67,6 +71,16 @@ const landingPageReducer = (state = initialState, action) =>
         break;
       case constants.SET_REGISTER_INFO_VALID:
         draft.registerInfo[action.key].isValid = action.value;
+        break;
+      case constants.REGISTER_SUCCESS:
+        draft.registerInfo.hasError = false;
+        draft.registerInfo.showHingt = true;
+        draft.registerInfo.hint = 'Register Success!';
+        break;
+      case constants.REGISTER_ERROR:
+        draft.registerInfo.hasError = true;
+        draft.registerInfo.showHingt = true;
+        draft.registerInfo.hint = action.errorHint;
         break;
     }
   });

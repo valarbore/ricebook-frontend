@@ -26,7 +26,7 @@ import Footer from 'components/Footer';
 import GlobalStyle from '../../global-styles';
 import reducer from './reducer';
 import saga from './saga';
-import * as constants from './constants';
+import * as actions from './actions';
 import { makeSelectUserAuth } from './selectors';
 
 export function App({ auth, authenticate }) {
@@ -93,7 +93,7 @@ const mapStateToProps = createStructuredSelector({
 
 export function mapDispatchToProps(dispatch) {
   return {
-    authenticate: auth => dispatch({ type: constants.AUTHENTICATE, auth }),
+    authenticate: auth => dispatch(actions.authenticateAction(auth)),
   };
 }
 

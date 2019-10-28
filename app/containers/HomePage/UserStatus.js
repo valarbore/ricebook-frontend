@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { Button, Form, FormControl } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 export default function UserStatus({ user, logout, goProfile, updateUser }) {
+  UserStatus.propTypes = {
+    user: PropTypes.object,
+    logout: PropTypes.func,
+    goProfile: PropTypes.func,
+    updateUser: PropTypes.func,
+  };
   const [newStatus, setNewStatus] = useState('');
   return (
     <div className="home-page-left-up-container">

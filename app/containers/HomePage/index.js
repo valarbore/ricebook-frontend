@@ -4,11 +4,11 @@
  *
  */
 
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
+
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { push } from 'connected-react-router';
@@ -26,10 +26,8 @@ import FriendList from './FriendList';
 import * as actions from './actions';
 import reducer from './reducer';
 import saga from './saga';
-import messages from './messages';
 import './style.css';
 import UserStatus from './UserStatus';
-import Footer from 'components/Footer';
 import PostsList from './PostsList';
 import Search from './Search';
 import AddPost from './AddPost';
@@ -95,6 +93,10 @@ HomePage.propTypes = {
   getFriends: PropTypes.func,
   addFriend: PropTypes.func,
   unfollowFriend: PropTypes.func,
+  getPosts: PropTypes.func,
+  searchPost: PropTypes.func,
+  addPost: PropTypes.func,
+  addFriendError: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -111,8 +113,7 @@ function mapDispatchToProps(dispatch) {
     logout: user => dispatch(logoutAction(user)),
     getFriends: user => dispatch(actions.getFriendsAction(user)),
     addFriend: friend => dispatch(actions.addFriendAction(friend)),
-    unfollowFriend: friend =>
-      dispatch(actions.unfollowFriendSuccessAction(friend)),
+    unfollowFriend: friend => dispatch(actions.unfollowFriendAction(friend)),
     getPosts: data => dispatch(actions.getPostsAction(data)),
     addPost: data => dispatch(actions.addPostAction(data)),
     searchPost: data => dispatch(actions.searchPostAction(data)),

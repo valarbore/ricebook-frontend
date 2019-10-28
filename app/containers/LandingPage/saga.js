@@ -1,19 +1,23 @@
-import { take, call, put, takeLatest, all } from 'redux-saga/effects';
+import { call, select, put, takeLatest, all } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import { HANDLE_LOGIN, HANDLE_REGISTER } from './constants';
-import { UPDATE_AUTH, UPDATE_USER } from '../App/constants';
+// import { UPDATE_AUTH, UPDATE_USER } from '../App/constants';
+import * as selectors from './selectors';
 import * as actions from './actions';
-import avatar from '../../images/defaultAvatar.jpg';
+import * as globalActions from '../App/actions';
+import messages from './messages';
+// import avatar from '../../images/defaultAvatar.jpg';
 import { STATUS } from '../../mock/status';
 import { AVATARS } from '../../mock/avatar/avatars';
 import request from '../../utils/request';
 // Individual exports for testing
-export function* handleLogin(action) {
+export function* handleLogin() {
   // todo
   // login success
-  const username = action.loginInfo.username.value;
-  const password = action.loginInfo.password.value;
-  const requestURL = `https://jsonplaceholder.typicode.com/users`;
+  const loginInfo = yield select(selectors.makeSelectLoginInfo());
+  const username = loginInfo.username.value;
+  const password = loginInfo.password.value;
+  const requestURL = `/users`;
   try {
     // get user
     const users = yield call(request, requestURL, {});
@@ -23,9 +27,7 @@ export function* handleLogin(action) {
     );
     if (loginUser.length === 0) {
       yield put(
-        actions.loginErrorAction(
-          'Username or Password wrong! Try username: Bret password: Kulas Light',
-        ),
+        actions.loginErrorAction(messages.loginErrorHint.defaultMessage),
       );
     } else {
       const { id } = loginUser[0];
@@ -42,18 +44,14 @@ export function* handleLogin(action) {
         }),
       );
       localStorage.setItem('user', JSON.stringify(user));
-      yield put({
-        type: UPDATE_AUTH,
-        auth: {
+      yield put(
+        globalActions.updateAuthAction({
           token: 1,
-          id: 1,
+          id: user.id,
           isAuthenticated: true,
-        },
-      });
-      yield put({
-        type: UPDATE_USER,
-        user,
-      });
+        }),
+      );
+      yield put(globalActions.updateUserAction(user));
       yield put(actions.loginSuccessAction());
       yield put(push('/'));
     }
@@ -61,49 +59,71 @@ export function* handleLogin(action) {
     yield put(actions.loginErrorAction(err));
   }
 }
-function* watchHandleLogin() {
+export function* watchHandleLogin() {
   yield takeLatest(HANDLE_LOGIN, handleLogin);
 }
 /**
  * register
  * @param {*} action register info
  */
-export function* handleRegister(action) {
+export function* handleRegister() {
   // todo
+  const registerInfo = yield select(selectors.makeSelectRegisterInfo());
+  let users = null;
+  try {
+    users = yield call(request, '/users', {});
+    // check whether username exist
+    const registerUser = users.filter(
+      user => registerInfo.username.value === user.username,
+    );
+    if (registerUser.length === 0) {
+      yield put(actions.registerSuccessAction());
+    } else {
+      yield put(
+        actions.registerErrorAction(
+          messages.registerErrorUserexistHint.defaultMessage,
+        ),
+      );
+    }
+  } catch (err) {
+    yield put(actions.registerErrorAction(err));
+  }
+
   // register success
-  localStorage.setItem(
-    'auth',
-    JSON.stringify({
-      token: 1,
-      id: 11,
-      username: action.registerInfo.username.value,
-    }),
-  );
-  const user = {
-    id: '11',
-    status: 'happy',
-    username: action.registerInfo.username.value,
-    email: action.registerInfo.email.value,
-    phone: action.registerInfo.phone.value,
-    address: { zipcode: action.registerInfo.zipcode.value, street: '123456' },
-    avatar,
-  };
-  localStorage.setItem('user', JSON.stringify(user));
-  yield put({
-    type: UPDATE_AUTH,
-    auth: {
-      token: 1,
-      id: user.id,
-      isAuthenticated: true,
-    },
-  });
-  yield put({
-    type: UPDATE_USER,
-    user,
-  });
-  yield put(push('/'));
+
+  // localStorage.setItem(
+  //   'auth',
+  //   JSON.stringify({
+  //     token: 1,
+  //     id: 11,
+  //     username: registerInfo.username.value,
+  //   }),
+  // );
+  // const user = {
+  //   id: '11',
+  //   status: 'happy',
+  //   username: registerInfo.username.value,
+  //   email: registerInfo.email.value,
+  //   phone: registerInfo.phone.value,
+  //   address: { zipcode: registerInfo.zipcode.value, street: '123456' },
+  //   avatar,
+  // };
+  // localStorage.setItem('user', JSON.stringify(user));
+  // yield put({
+  //   type: UPDATE_AUTH,
+  //   auth: {
+  //     token: 1,
+  //     id: user.id,
+  //     isAuthenticated: true,
+  //   },
+  // });
+  // yield put({
+  //   type: UPDATE_USER,
+  //   user,
+  // });
+  // yield put(push('/'));
 }
-function* watchHandleRegister() {
+export function* watchHandleRegister() {
   yield takeLatest(HANDLE_REGISTER, handleRegister);
 }
 export default function* landingPageSaga() {

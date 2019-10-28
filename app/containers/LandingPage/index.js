@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo, useState, Fragment } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -22,17 +22,12 @@ import {
   makeSelectLoginInfo,
   makeSelectRegisterInfo,
 } from './selectors';
-import {
-  changeTypeAction,
-  setLoginInfoAction,
-  setRegisterInfoAction,
-  setRegisterInfoValidAction,
-} from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { Background, ContentWrapper } from './Wrapper';
-import { LOGIN, HANDLE_LOGIN, HANDLE_REGISTER } from './constants';
+import { LOGIN } from './constants';
+import * as actions from './actions';
 import './style.css';
 import {
   validatePassword,
@@ -233,6 +228,16 @@ export function LandingPage({
                   )}
                 </Col>
               </Form.Group>
+              {registerInfo.showHingt && (
+                <p
+                  style={{
+                    textAlign: 'center',
+                    color: registerInfo.hasError ? 'red' : 'green',
+                  }}
+                >
+                  {registerInfo.hint}
+                </p>
+              )}
               <Button
                 type="submit"
                 size="bg"
@@ -278,21 +283,23 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeType: () => dispatch(changeTypeAction()),
+    changeType: () => dispatch(actions.changeTypeAction()),
     setLoginInfo: event => {
-      dispatch(setLoginInfoAction(event.target.id, event.target.value));
+      dispatch(actions.setLoginInfoAction(event.target.id, event.target.value));
     },
     setRegisterInfo: event => {
-      dispatch(setRegisterInfoAction(event.target.id, event.target.value));
+      dispatch(
+        actions.setRegisterInfoAction(event.target.id, event.target.value),
+      );
     },
     setRegisterInfoValid: (key, value) => {
-      dispatch(setRegisterInfoValidAction(key, value));
+      dispatch(actions.setRegisterInfoValidAction(key, value));
     },
     handleLogin: loginInfo => {
-      dispatch({ type: HANDLE_LOGIN, loginInfo });
+      dispatch(actions.loginAction(loginInfo));
     },
     handleRegister: registerInfo => {
-      dispatch({ type: HANDLE_REGISTER, registerInfo });
+      dispatch(actions.registerAction(registerInfo));
     },
   };
 }

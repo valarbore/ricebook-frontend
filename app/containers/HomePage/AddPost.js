@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Form, FormControl } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 export default function AddPost({ addPost }) {
   const initialPost = { title: '', body: '', image: null };
@@ -13,6 +14,9 @@ export default function AddPost({ addPost }) {
     reader.onloadend = e => {
       updatePost({ image: e.target.result });
     };
+  };
+  AddPost.propTypes = {
+    addPost: PropTypes.func,
   };
   return (
     <div

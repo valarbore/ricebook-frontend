@@ -1,32 +1,25 @@
-// import produce from 'immer';
-import profilePageReducer from '../reducer';
-// import { someAction } from '../actions';
+import produce from 'immer';
 
-/* eslint-disable default-case, no-param-reassign */
+import profilePageReducer, { initialState } from '../reducer';
+import * as actions from '../actions';
+
+/* eslint-disable no-param-reassign */
 describe('profilePageReducer', () => {
   let state;
   beforeEach(() => {
-    state = {
-      // default state params here
-    };
+    state = initialState;
   });
-
-  it('returns the initial state', () => {
+  it('should return the initial state', () => {
     const expectedResult = state;
     expect(profilePageReducer(undefined, {})).toEqual(expectedResult);
   });
-
-  /**
-   * Example state change comparison
-   *
-   * it('should handle the someAction action correctly', () => {
-   *   const expectedResult = produce(state, draft => {
-   *     draft.loading = true;
-   *     draft.error = false;
-   *     draft.userData.nested = false;
-   *   });
-   *
-   *   expect(appReducer(state, someAction())).toEqual(expectedResult);
-   * });
-   */
+  it('update avatar', () => {
+    const avatar = ' test avatar';
+    const expectedResult = produce(state, draft => {
+      draft.avatar = avatar;
+    });
+    expect(
+      profilePageReducer(state, actions.updateAvatarAction(avatar)),
+    ).toEqual(expectedResult);
+  });
 });

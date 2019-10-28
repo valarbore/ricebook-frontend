@@ -2,38 +2,35 @@
  * Gets the repositories of the user from Github
  */
 
-import { call, put, all, takeLatest } from 'redux-saga/effects';
-import request from 'utils/request';
+import { put, all, takeLatest } from 'redux-saga/effects';
+
 import { push } from 'connected-react-router';
 import * as contants from './constants';
-import avatar from '../../images/defaultAvatar.jpg';
+import * as actions from './actions';
+
 /**
  * authenticate user by using token and id
  */
-function* authenticate(action) {
+export function* authenticate(action) {
   // todo
   const auth = JSON.parse(action.auth);
   const user = JSON.parse(localStorage.getItem('user'));
-  yield put({
-    type: contants.UPDATE_AUTH,
-    auth: {
+  yield put(
+    actions.updateAuthAction({
       token: 1,
       id: auth.id,
       isAuthenticated: true,
-    },
-  });
-  yield put({
-    type: contants.UPDATE_USER,
-    user,
-  });
+    }),
+  );
+  yield put(actions.updateUserAction(user));
 }
-function* watchAuthenticate() {
+export function* watchAuthenticate() {
   yield takeLatest(contants.AUTHENTICATE, authenticate);
 }
 /**
  * user log out
  */
-export function* logout(action) {
+export function* logout() {
   // todo notify server log out
   // clear localstorage
   localStorage.removeItem('auth');
@@ -42,7 +39,7 @@ export function* logout(action) {
   yield put(push('/landing'));
 }
 
-function* watchLogout() {
+export function* watchLogout() {
   yield takeLatest(contants.LOG_OUT, logout);
 }
 /**

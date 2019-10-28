@@ -1,6 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import PostsItem from './PostItem';
 export default function PostsList({ posts }) {
+  PostsList.propTypes = {
+    posts: PropTypes.array,
+  };
   return (
     <div>
       {posts.length > 0 ? (

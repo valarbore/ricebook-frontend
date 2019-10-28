@@ -1,5 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 export default function CurrentInfo({ user }) {
+  CurrentInfo.propTypes = {
+    user: PropTypes.object,
+  };
   return (
     <div style={{ padding: '0 15px' }}>
       <h3>Current Info</h3>

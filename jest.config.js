@@ -1,11 +1,10 @@
 module.exports = {
   collectCoverageFrom: [
-    'app/**/*.{js,jsx}',
-    '!app/**/*.test.{js,jsx}',
-    '!app/*/RbGenerated*/*.{js,jsx}',
-    '!app/app.js',
-    '!app/global-styles.js',
-    '!app/*/*/Loadable.{js,jsx}',
+    'app/containers/**/saga.js',
+    'app/containers/**/reducer.js',
+    'app/utils/**',
+    '!app/utils/loadable.js',
+    '!app/utils/request.js',
   ],
   coverageThreshold: {
     global: {
