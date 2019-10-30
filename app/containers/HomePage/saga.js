@@ -156,6 +156,7 @@ export function* addPost(action) {
     author: { username: user.username, avatar: user.avatar },
     publishDate: date,
     id,
+    comments: [],
   });
   posts.unshift(newPost);
   localStorage.setItem('posts', JSON.stringify(posts));
