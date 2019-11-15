@@ -16,6 +16,12 @@ const makeSelectAvatar = () =>
     substate => substate.avatar,
   );
 
+const makeSelectUpdateInfo = () =>
+  createSelector(
+    selectProfilePageDomain,
+    substate => substate.updateInfo,
+  );
+
 /**
  * Default selector used by ProfilePage
  */
@@ -27,4 +33,4 @@ const makeSelectProfilePage = () =>
   );
 
 export default makeSelectProfilePage;
-export { selectProfilePageDomain, makeSelectAvatar };
+export { selectProfilePageDomain, makeSelectAvatar, makeSelectUpdateInfo };

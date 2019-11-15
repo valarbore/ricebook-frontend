@@ -16,7 +16,7 @@ import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 
 import { makeSelectUser } from '../App/selectors';
-import { updateUserAction, logoutAction } from '../App/actions';
+import { logoutAction } from '../App/actions';
 import {
   makeSelectFriends,
   makeSelectPosts,
@@ -31,18 +31,18 @@ import UserStatus from './UserStatus';
 import PostsList from './PostsList';
 import Search from './Search';
 import AddPost from './AddPost';
+import Modal from '../Modal';
 
 export function HomePage({
   user,
   friends,
   posts,
-  updateUser,
+  updateHeadline,
   goProfile,
   logout,
-  getFriends,
-  addFriend,
-  unfollowFriend,
-  getPosts,
+  getFollowing,
+  follow,
+  unfollow,
   searchPost,
   addPost,
   addFriendError,
@@ -51,27 +51,28 @@ export function HomePage({
   useInjectSaga({ key: 'homePage', saga });
   // reques initial friend and posts
   useEffect(() => {
-    getFriends(user.id);
-    getPosts(user.id);
-  }, [getFriends, getPosts, user.id]);
+    getFollowing();
+    // getPosts(user.id);
+  }, [getFollowing]);
   return (
-    <div className="main-container clearfix">
+    <div className="main-container clearfix" id="home-page">
       <Helmet>
         <title>HomePage</title>
         <meta name="description" content="Description of HomePage" />
       </Helmet>
+      <Modal />
       <div className="home-page-left">
         <UserStatus
           user={user}
           logout={logout}
           goProfile={goProfile}
-          updateUser={updateUser}
+          updateHeadline={updateHeadline}
         />
         <FriendList
           addFriendError={addFriendError}
-          unfollowFriend={unfollowFriend}
+          unfollowFriend={unfollow}
           friends={friends}
-          addFriend={addFriend}
+          addFriend={follow}
         />
       </div>
       <div className="home-page-right">
@@ -87,13 +88,12 @@ HomePage.propTypes = {
   user: PropTypes.object,
   friends: PropTypes.array,
   posts: PropTypes.array,
-  updateUser: PropTypes.func,
+  updateHeadline: PropTypes.func,
   goProfile: PropTypes.func,
   logout: PropTypes.func,
-  getFriends: PropTypes.func,
-  addFriend: PropTypes.func,
-  unfollowFriend: PropTypes.func,
-  getPosts: PropTypes.func,
+  getFollowing: PropTypes.func,
+  follow: PropTypes.func,
+  unfollow: PropTypes.func,
   searchPost: PropTypes.func,
   addPost: PropTypes.func,
   addFriendError: PropTypes.object,
@@ -108,13 +108,13 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateUser: user => dispatch(updateUserAction(user)),
+    updateHeadline: headline =>
+      dispatch(actions.updateHeadlineAction(headline)),
     goProfile: id => dispatch(push(`/profile/${id}`)),
     logout: user => dispatch(logoutAction(user)),
-    getFriends: user => dispatch(actions.getFriendsAction(user)),
-    addFriend: friend => dispatch(actions.addFriendAction(friend)),
-    unfollowFriend: friend => dispatch(actions.unfollowFriendAction(friend)),
-    getPosts: data => dispatch(actions.getPostsAction(data)),
+    getFollowing: () => dispatch(actions.getFollowingAction()),
+    follow: user => dispatch(actions.followAction(user)),
+    unfollow: user => dispatch(actions.unfollowAction(user)),
     addPost: data => dispatch(actions.addPostAction(data)),
     searchPost: data => dispatch(actions.searchPostAction(data)),
   };

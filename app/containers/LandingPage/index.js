@@ -16,7 +16,7 @@ import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import LandingHeader from 'components/LandingHeader';
 
-import { Form, Card, Button, Row, Col } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import {
   makeSelectCurrentType,
   makeSelectLoginInfo,
@@ -29,11 +29,10 @@ import { Background, ContentWrapper } from './Wrapper';
 import { LOGIN } from './constants';
 import * as actions from './actions';
 import './style.css';
-import {
-  validatePassword,
-  validatePhone,
-  validateZipcode,
-} from '../../utils/validates';
+
+import Login from './Login';
+import Register from './Register';
+
 export function LandingPage({
   currentType,
   changeType,
@@ -44,30 +43,10 @@ export function LandingPage({
   registerInfo,
   setRegisterInfoValid,
   handleRegister,
+  location,
 }) {
   useInjectReducer({ key: 'landingPage', reducer });
   useInjectSaga({ key: 'landingPage', saga });
-  window.console.log(currentType);
-  // validate register info and handle register
-  const handleRegisterSubmit = event => {
-    const passwordIsValid = validatePassword(
-      registerInfo.password.value,
-      registerInfo.passwordConfirm.value,
-    );
-    const phoneIsValid = validatePhone(registerInfo.phone.value);
-    const zipcodeIsValid = validateZipcode(registerInfo.zipcode.value);
-    setRegisterInfoValid('passwordConfirm', passwordIsValid);
-    setRegisterInfoValid('phone', phoneIsValid);
-    setRegisterInfoValid('zipcode', zipcodeIsValid);
-
-    if (passwordIsValid && phoneIsValid && zipcodeIsValid) {
-      // handle register
-
-      handleRegister(registerInfo);
-    }
-    event.preventDefault();
-    event.stopPropagation();
-  };
   return (
     <Background>
       <Helmet>
@@ -78,181 +57,27 @@ export function LandingPage({
       <ContentWrapper>
         <Card className="card">
           {currentType === LOGIN ? (
-            <Form
-              style={{
-                margin: ' 80px 30px 0px 30px',
-              }}
-              onSubmit={event => {
-                handleLogin(loginInfo);
-                event.preventDefault();
-                event.stopPropagation();
-              }}
-            >
-              <Form.Group style={{ marginBottom: '50px' }}>
-                <Form.Label>Username:</Form.Label>
-                <Form.Control
-                  type="text"
-                  id="username"
-                  placeholder={messages.usernamePlaceholder.defaultMessage}
-                  onChange={setLoginInfo}
-                  required
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>{messages.passwordLabel.defaultMessage}</Form.Label>
-                <Form.Control
-                  id="password"
-                  type="password"
-                  placeholder={messages.passwordPlaceholder.defaultMessage}
-                  onChange={setLoginInfo}
-                  required
-                />
-                {loginInfo.hasError && (
-                  <Form.Text style={{ color: 'red', marginTop: '20px' }}>
-                    {loginInfo.errorHint}
-                  </Form.Text>
-                )}
-              </Form.Group>
-              <Button
-                type="submit"
-                size="bg"
-                style={{
-                  width: '200px',
-                  margin: '50px auto 0 auto',
-                  display: 'block',
-                }}
-              >
-                {messages.signIn.defaultMessage}
-              </Button>
-            </Form>
+            <Login
+              loginInfo={loginInfo}
+              setLoginInfo={setLoginInfo}
+              handleLogin={handleLogin}
+              location={location}
+            />
           ) : (
-            <Form onSubmit={handleRegisterSubmit}>
-              <Form.Group as={Row}>
-                <Form.Label column sm={4}>
-                  {messages.usernameLabel.defaultMessage}
-                </Form.Label>
-                <Col sm={8}>
-                  <Form.Control
-                    id="username"
-                    onChange={setRegisterInfo}
-                    type="text"
-                    placeholder={messages.usernamePlaceholder.defaultMessage}
-                    required
-                  />
-                </Col>
-              </Form.Group>
-              <Form.Group as={Row}>
-                <Form.Label column sm={4}>
-                  {messages.emailLabel.defaultMessage}
-                </Form.Label>
-                <Col sm={8}>
-                  <Form.Control
-                    id="email"
-                    onChange={setRegisterInfo}
-                    type="email"
-                    placeholder={messages.emailPlaceholder.defaultMessage}
-                    required
-                  />
-                </Col>
-              </Form.Group>
-              <Form.Group as={Row}>
-                <Form.Label column sm={4}>
-                  {messages.passwordLabel.defaultMessage}
-                </Form.Label>
-                <Col sm={8}>
-                  <Form.Control
-                    id="password"
-                    onChange={setRegisterInfo}
-                    type="password"
-                    placeholder={messages.passwordPlaceholder.defaultMessage}
-                    required
-                  />
-                </Col>
-              </Form.Group>
-              <Form.Group as={Row}>
-                <Form.Label column sm={4}>
-                  {messages.passwordConfirmLabel.defaultMessage}
-                </Form.Label>
-                <Col sm={8}>
-                  <Form.Control
-                    id="passwordConfirm"
-                    onChange={setRegisterInfo}
-                    type="password"
-                    placeholder={
-                      messages.passwordConfirmPlaceholder.defaultMessage
-                    }
-                    required
-                  />
-                  {!registerInfo.passwordConfirm.isValid && (
-                    <Form.Text className="error-hint">
-                      Please confirm two passwords are same
-                    </Form.Text>
-                  )}
-                </Col>
-              </Form.Group>
-              <Form.Group as={Row}>
-                <Form.Label column sm={4}>
-                  {messages.phoneLabel.defaultMessage}
-                </Form.Label>
-                <Col sm={8}>
-                  <Form.Control
-                    id="phone"
-                    onChange={setRegisterInfo}
-                    type="text"
-                    placeholder={messages.phonePlaceholer.defaultMessage}
-                    required
-                  />
-                  {!registerInfo.phone.isValid && (
-                    <Form.Text className="error-hint">
-                      Please provide a valid phone.(xxx-xxx-xxxx)
-                    </Form.Text>
-                  )}
-                </Col>
-              </Form.Group>
-              <Form.Group as={Row}>
-                <Form.Label column sm={4}>
-                  {messages.zipcodeLabel.defaultMessage}
-                </Form.Label>
-                <Col sm={8}>
-                  <Form.Control
-                    id="zipcode"
-                    onChange={setRegisterInfo}
-                    type="text"
-                    placeholder={messages.zipcodePlaceholder.defaultMessage}
-                    required
-                  />
-                  {!registerInfo.zipcode.isValid && (
-                    <Form.Text className="error-hint">
-                      Please provide a valid zipcode.(xxxxx)
-                    </Form.Text>
-                  )}
-                </Col>
-              </Form.Group>
-              {registerInfo.showHingt && (
-                <p
-                  style={{
-                    textAlign: 'center',
-                    color: registerInfo.hasError ? 'red' : 'green',
-                  }}
-                >
-                  {registerInfo.hint}
-                </p>
-              )}
-              <Button
-                type="submit"
-                size="bg"
-                style={{
-                  width: '200px',
-                  margin: '50px auto 0 auto',
-                  display: 'block',
-                }}
-              >
-                {messages.register.defaultMessage}
-              </Button>
-            </Form>
+            <Register
+              setRegisterInfo={setRegisterInfo}
+              handleRegister={handleRegister}
+              registerInfo={registerInfo}
+              setRegisterInfoValid={setRegisterInfoValid}
+            />
           )}
 
-          <Button variant="link" className="link-button" onClick={changeType}>
+          <Button
+            variant="link"
+            className="link-button"
+            id="type-change-btn"
+            onClick={changeType}
+          >
             {currentType === LOGIN
               ? messages.typeChangeHintRegister.defaultMessage
               : messages.typeChangeHintLogin.defaultMessage}
@@ -273,6 +98,7 @@ LandingPage.propTypes = {
   registerInfo: PropTypes.object,
   setRegisterInfoValid: PropTypes.func,
   handleRegister: PropTypes.func,
+  location: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -295,8 +121,8 @@ function mapDispatchToProps(dispatch) {
     setRegisterInfoValid: (key, value) => {
       dispatch(actions.setRegisterInfoValidAction(key, value));
     },
-    handleLogin: loginInfo => {
-      dispatch(actions.loginAction(loginInfo));
+    handleLogin: (loginInfo, from) => {
+      dispatch(actions.loginAction(loginInfo, from));
     },
     handleRegister: registerInfo => {
       dispatch(actions.registerAction(registerInfo));

@@ -2,27 +2,33 @@
  * Gets the repositories of the user from Github
  */
 
-import { put, all, takeLatest } from 'redux-saga/effects';
+import { put, all, takeLatest, call } from 'redux-saga/effects';
 
 import { push } from 'connected-react-router';
 import * as contants from './constants';
 import * as actions from './actions';
+import request from '../../utils/request';
 
 /**
  * authenticate user by using token and id
  */
-export function* authenticate(action) {
-  // todo
-  const auth = JSON.parse(action.auth);
-  const user = JSON.parse(localStorage.getItem('user'));
-  yield put(
-    actions.updateAuthAction({
-      token: 1,
-      id: auth.id,
-      isAuthenticated: true,
-    }),
-  );
-  yield put(actions.updateUserAction(user));
+export function* authenticate() {
+  try {
+    const response = yield call(request, '/auth', {});
+    if (response.code === 0) {
+      // has authority
+      yield put(actions.updateAuthAction(true));
+      yield put(actions.updateUserAction(response.data));
+    } else {
+      // no authority
+      yield put(actions.updateAuthAction(false));
+    }
+  } catch (err) {
+    // todo err page
+    yield put(actions.updateAuthAction(false));
+  }
+
+  // yield put(actions.updateUserAction(user));
 }
 export function* watchAuthenticate() {
   yield takeLatest(contants.AUTHENTICATE, authenticate);
@@ -33,8 +39,6 @@ export function* watchAuthenticate() {
 export function* logout() {
   // todo notify server log out
   // clear localstorage
-  localStorage.removeItem('auth');
-  localStorage.removeItem('user');
   // redirect to landingpage
   yield put(push('/landing'));
 }
@@ -45,7 +49,7 @@ export function* watchLogout() {
 /**
  * Root saga manages watcher lifecycle
  */
-export default function* rootSage() {
+export default function* appSage() {
   // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
   // By using `takeLatest` only the result of the latest API call is applied.
   // It returns task descriptor (just like fork) so we can continue execution

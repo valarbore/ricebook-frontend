@@ -6,55 +6,30 @@
 
 import * as constants from './constants';
 
-export function getFriendsAction(user) {
+export function getFollowingAction() {
   return {
-    type: constants.GET_FRIENDS,
+    type: constants.GET_FOLLOWING,
+  };
+}
+
+export function getFollowingSuccessAction(following) {
+  return {
+    type: constants.GET_FOLLOWING_SUCCESS,
+    following,
+  };
+}
+
+export function followAction(user) {
+  return {
+    type: constants.FOLLOW,
     user,
   };
 }
 
-export function getFriendsSuccessAction(friends) {
+export function unfollowAction(user) {
   return {
-    type: constants.GET_FRIENDS_SUCCESS,
-    friends,
-  };
-}
-
-export function getFriendsErrorAction(error) {
-  return {
-    type: constants.GET_FRIENDS_ERROR,
-    error,
-  };
-}
-
-export function addFriendAction(friend) {
-  return {
-    type: constants.ADD_FRIEND,
-    friend,
-  };
-}
-export function addFriendErrorAction(error) {
-  return {
-    type: constants.ADD_FRIEND_ERROR,
-    error,
-  };
-}
-export function addFriendSuccessAction(friend) {
-  return {
-    type: constants.ADD_FRIEND_SUCCESS,
-    friend,
-  };
-}
-export function unfollowFriendAction(friend) {
-  return {
-    type: constants.UNFOLLOW_FRIEND,
-    friend,
-  };
-}
-export function unfollowFriendSuccessAction(friend) {
-  return {
-    type: constants.UNFOLLOW_FRIEND_SUCCESS,
-    friend,
+    type: constants.UNFOLLOW,
+    user,
   };
 }
 
@@ -68,12 +43,6 @@ export function getPostsAction(data) {
 export function getPostsSuccessAction(data) {
   return {
     type: constants.GET_POSTS_SUCCESS,
-    data,
-  };
-}
-export function getPostsErrorAction(data) {
-  return {
-    type: constants.GET_POSTS_ERROR,
     data,
   };
 }
@@ -112,6 +81,20 @@ export function searchPostSuccessAction(data) {
 export function searchPostErrorAction(data) {
   return {
     type: constants.SEARCH_POST_ERROR,
+    data,
+  };
+}
+
+export function updateHeadlineAction(data) {
+  return {
+    type: constants.UPDATE_HEADLINE,
+    data,
+  };
+}
+
+export function updateHeadlineSuccessAction(data) {
+  return {
+    type: constants.UPDATE_HEADLINE_SUCCESS,
     data,
   };
 }

@@ -1,34 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Form, FormControl, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import FriendItem from './FriendItem';
-export default function FriendList({
-  friends,
-  unfollowFriend,
-  addFriend,
-  addFriendError,
-}) {
+export default function FriendList({ friends, unfollowFriend, addFriend }) {
   FriendList.propTypes = {
     friends: PropTypes.array,
     unfollowFriend: PropTypes.func,
     addFriend: PropTypes.func,
-    addFriendError: PropTypes.object,
   };
 
   const [newFriend, setNewFriend] = useState('');
-  const [isShow, setShow] = useState('none');
-  useEffect(() => {
-    setShow('block');
-    const timer = setTimeout(() => {
-      setShow('none');
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [addFriendError]);
+
   const handleAddFriend = event => {
     addFriend(newFriend);
     setNewFriend('');
     event.preventDefault();
-    event.stopPropagation();
   };
   return (
     <div className="home-page-friend-container">
@@ -65,17 +51,6 @@ export default function FriendList({
           Add
         </Button>
       </Form>
-      <p
-        style={{
-          textAlign: 'center',
-          display: `${isShow}`,
-          color: 'red',
-          lineHeight: '20px',
-          padding: '10px 0',
-        }}
-      >
-        {addFriendError.addFriendErrorHint}
-      </p>
     </div>
   );
 }

@@ -10,7 +10,7 @@ export default function FriendItem({ friend, unfollowFriend }) {
     <div className="home-page-list-item-container">
       <img
         src={friend.avatar}
-        alt={friend.name}
+        alt={friend.username}
         className="home-page-list-item-img"
       />
       <div style={{ width: '100%', marginTop: '10px' }} className="clearfix">
@@ -25,14 +25,14 @@ export default function FriendItem({ friend, unfollowFriend }) {
           <p style={{ margin: '0', fontWeight: 'bold', fontSize: '16px' }}>
             {friend.username}
           </p>
-          <p style={{ fontSize: '14px' }}>{friend.status}</p>
+          <p style={{ fontSize: '14px' }}>{friend.headline}</p>
         </div>
         <Button
           style={{ float: 'right' }}
           size="sm"
           className="home-page-list-item-btn"
           variant="outline-danger"
-          onClick={() => unfollowFriend(friend)}
+          onClick={() => unfollowFriend(friend.username)}
         >
           Unfollow
         </Button>

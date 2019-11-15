@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { getDateFormatMimnute } from 'utils/date';
 import PostCommentList from './PostCommentList';
 
 export default function PostsItem({ post }) {
@@ -13,23 +14,21 @@ export default function PostsItem({ post }) {
       <div className="clearfix">
         <img
           className="home-page-post-item-author-avatar"
-          src={post.author.avatar}
-          alt={post.author.username}
+          src={post.avatar}
+          alt={post.username}
         />
-        <span className="home-page-post-item-author-name">
-          {post.author.username}
-        </span>
+        <span className="home-page-post-item-author-name">{post.author}</span>
         <span className="home-page-post-item-publish-date">
-          {post.publishDate}
+          {getDateFormatMimnute(post.date)}
         </span>
       </div>
 
-      <p className="home-page-post-item-post-title">{post.title}</p>
-      <p className="home-page-post-item-post-body">{post.body}</p>
-      {post.image && (
+      <p className="home-page-post-item-post-title">{post.head}</p>
+      <p className="home-page-post-item-post-body">{post.text}</p>
+      {post.img && (
         <img
           className="home-page-post-item-post-image"
-          src={post.image}
+          src={post.img}
           alt={post.title}
         />
       )}

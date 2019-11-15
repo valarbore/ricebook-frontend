@@ -17,6 +17,7 @@ export default function Search({ searchPost }) {
       }}
     >
       <FormControl
+        name="search"
         size="sm"
         type="text"
         placeholder="search posts"
@@ -25,6 +26,7 @@ export default function Search({ searchPost }) {
         style={{ flex: '1', marginRight: '20px' }}
       />
       <Button
+        id="search-btn"
         size="sm"
         variant="primary"
         type="submit"

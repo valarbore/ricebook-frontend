@@ -1,4 +1,5 @@
 {
   "netid": "bz31",
-  "frontend": "lewd-vessel.surge.sh"
+  "frontend": "http://ricebook.bz31.surge.sh",
+  "backend": "https://ricebookserverbz31.herokuapp.com"
 }

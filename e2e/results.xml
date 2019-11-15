@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="7" failures="0" time="138.564">
+  <testsuite name="Register new user" errors="0" failures="0" skipped="0" timestamp="2019-11-15T01:16:59" time="135.383" tests="7">
+    <testcase classname="Register new user new user can register" name="Register new user new user can register" time="46.425">
+    </testcase>
+    <testcase classname="login as new user new user can login" name="login as new user new user can login" time="19.513">
+    </testcase>
+    <testcase classname="Create new article and validate article appears in feed Create new article and validate article appears in feed" name="Create new article and validate article appears in feed Create new article and validate article appears in feed" time="26.632">
+    </testcase>
+    <testcase classname="Update headline and verify change Update headline and verify change" name="Update headline and verify change Update headline and verify change" time="10.147">
+    </testcase>
+    <testcase classname="Log out new user Log out new user" name="Log out new user Log out new user" time="2.536">
+    </testcase>
+    <testcase classname="log in as test user test user can login" name="log in as test user test user can login" time="11.388">
+    </testcase>
+    <testcase classname="Search for a keyword that matches only one of test user articles and verify only one article shows, and verify the author Search for a keyword that matches only one of test user articles and verify only one article shows, and verify the author" name="Search for a keyword that matches only one of test user articles and verify only one article shows, and verify the author Search for a keyword that matches only one of test user articles and verify only one article shows, and verify the author" time="9.629">
+    </testcase>
+  </testsuite>
+</testsuites>

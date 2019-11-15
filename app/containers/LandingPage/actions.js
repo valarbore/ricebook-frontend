@@ -12,10 +12,11 @@ export function changeTypeAction() {
   };
 }
 
-export function loginAction(loginInfo) {
+export function loginAction(loginInfo, from) {
   return {
     type: constants.HANDLE_LOGIN,
     loginInfo,
+    path: from,
   };
 }
 export function loginErrorAction(error) {

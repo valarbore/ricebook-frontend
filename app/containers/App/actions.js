@@ -1,7 +1,7 @@
 import * as constants from './constants';
 
-export function authenticateAction(auth) {
-  return { type: constants.AUTHENTICATE, auth };
+export function authenticateAction() {
+  return { type: constants.AUTHENTICATE };
 }
 export function updateUserAction(user) {
   return {

@@ -15,7 +15,8 @@ export default function PostsList({ comment }) {
         fontSize: '12px',
       }}
     >
-      {comment.body}
+      <h6>{comment.author}:</h6>
+      {comment.text}
     </div>
   );
 }

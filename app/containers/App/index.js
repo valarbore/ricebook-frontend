@@ -29,32 +29,29 @@ import saga from './saga';
 import * as actions from './actions';
 import { makeSelectUserAuth } from './selectors';
 
-export function App({ auth, authenticate }) {
+export function App({ isAuthenticated, authenticate }) {
   useInjectReducer({ key: 'global', reducer });
   useInjectSaga({ key: 'global', saga });
   // check whether user authenticated with info in localstorage
-  const localAuth = localStorage.getItem('auth');
   useEffect(() => {
-    if (!auth.isAuthenticated) {
-      if (localAuth) {
-        // to do authenticate by using info in localstorage
-        authenticate(localAuth);
-      }
+    if (isAuthenticated !== true) {
+      authenticate();
     }
-  }, [auth.isAuthenticated, authenticate, localAuth]);
+  }, [authenticate, isAuthenticated]);
   /* eslint-disable */
+  // only use logged in can they get access to private router
   function PrivateRoute({ children, ...rest }) {
     return (
       <Route
         {...rest}
         render={({ location }) =>
-        localAuth ? (
+        isAuthenticated===true ? (
             children
           ) : (
             <Redirect
               to={{
                 pathname: "/landing",
-                state: { from: location }
+                state: { from: location.pathname }
               }}
             />
           )
@@ -63,7 +60,9 @@ export function App({ auth, authenticate }) {
     );
   }
   /* eslint-enable */
-
+  if (isAuthenticated === null) {
+    return <div className="page" id="page" />;
+  }
   return (
     <div className="page" id="page">
       <NormalHeader />
@@ -84,16 +83,16 @@ export function App({ auth, authenticate }) {
 }
 
 App.propTypes = {
-  auth: PropTypes.object,
+  isAuthenticated: PropTypes.bool,
   authenticate: PropTypes.func,
 };
 const mapStateToProps = createStructuredSelector({
-  auth: makeSelectUserAuth(),
+  isAuthenticated: makeSelectUserAuth(),
 });
 
 export function mapDispatchToProps(dispatch) {
   return {
-    authenticate: auth => dispatch(actions.authenticateAction(auth)),
+    authenticate: () => dispatch(actions.authenticateAction()),
   };
 }
 

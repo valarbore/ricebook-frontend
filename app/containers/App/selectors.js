@@ -6,13 +6,13 @@ const selectGlobal = state => state.global || initialState;
 const makeSelectUser = () =>
   createSelector(
     selectGlobal,
-    globalState => globalState.user,
+    globalState => globalState.profile,
   );
 
 const makeSelectUserAuth = () =>
   createSelector(
     selectGlobal,
-    globalState => globalState.auth,
+    globalState => globalState.isAuthenticated,
   );
 
 export { makeSelectUserAuth, makeSelectUser };

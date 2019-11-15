@@ -20,7 +20,13 @@ function parseJSON(response) {
  * @return {object|undefined} Returns either the response, or throws an error
  */
 function checkStatus(response) {
-  if (response.status >= 200 && response.status < 300) {
+  if (
+    (response.status >= 200 && response.status < 300) ||
+    response.status === 400 ||
+    response.status === 401 ||
+    response.status === 403 ||
+    response.status === 500
+  ) {
     return response;
   }
 
@@ -29,10 +35,6 @@ function checkStatus(response) {
   throw error;
 }
 
-const defaultOption = {
-  method: 'GET',
-  headers: { 'Content-type': 'application/json; charset=UTF-8' },
-};
 /**
  * Requests a URL, returning a promise
  *
@@ -41,9 +43,21 @@ const defaultOption = {
  *
  * @return {object}           The response data
  */
-export default function request(url, options) {
-  const newOption = Object.assign(options, defaultOption);
-  const api = 'https://jsonplaceholder.typicode.com';
+export default function request(url, options, apiType) {
+  const defaultOption = {
+    method: 'GET',
+    headers: { 'Content-type': 'application/json; charset=UTF-8' },
+    credentials: 'include',
+  };
+  const newOption = Object.assign(defaultOption, options);
+  // console.log(newOption);
+  let api;
+  if (apiType === undefined) {
+    api =
+      process.env.NODE_ENV === 'production'
+        ? 'https://ricebookserverbz31.herokuapp.com'
+        : 'https://localhost:8080';
+  }
   return fetch(api + url, newOption)
     .then(checkStatus)
     .then(parseJSON);

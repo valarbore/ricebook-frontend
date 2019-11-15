@@ -11,12 +11,8 @@ export const initialState = {
   loginInfo: {
     hasError: false,
     errorHint: '',
-    username: {
-      value: '',
-    },
-    password: {
-      value: '',
-    },
+    username: '',
+    password: '',
   },
   registerInfo: {
     hasError: false,
@@ -25,24 +21,13 @@ export const initialState = {
     username: {
       value: '',
     },
-    email: {
-      value: '',
-    },
-    password: {
-      value: '',
-    },
-    passwordConfirm: {
-      value: '',
-      isValid: true,
-    },
-    phone: {
-      value: '',
-      isValid: true,
-    },
-    zipcode: {
-      value: '',
-      isValid: true,
-    },
+    email: '',
+    password: '',
+    passwordConfirm: '',
+    passwordError: false,
+    dob: '',
+    dobError: false,
+    zipcode: '',
   },
 };
 
@@ -64,18 +49,18 @@ const landingPageReducer = (state = initialState, action) =>
         draft.loginInfo.errorHint = '';
         break;
       case constants.SET_LOGIN_INFO:
-        draft.loginInfo[action.key].value = action.value;
+        draft.loginInfo[action.key] = action.value;
         break;
       case constants.SET_REGISTER_INFO:
-        draft.registerInfo[action.key].value = action.value;
+        draft.registerInfo[action.key] = action.value;
         break;
       case constants.SET_REGISTER_INFO_VALID:
-        draft.registerInfo[action.key].isValid = action.value;
+        draft.registerInfo[action.key] = action.value;
         break;
       case constants.REGISTER_SUCCESS:
         draft.registerInfo.hasError = false;
         draft.registerInfo.showHingt = true;
-        draft.registerInfo.hint = 'Register Success!';
+        draft.registerInfo.hint = 'Register Success! Go to Login!';
         break;
       case constants.REGISTER_ERROR:
         draft.registerInfo.hasError = true;

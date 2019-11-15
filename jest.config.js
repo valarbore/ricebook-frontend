@@ -1,11 +1,5 @@
 module.exports = {
-  collectCoverageFrom: [
-    'app/containers/**/saga.js',
-    'app/containers/**/reducer.js',
-    'app/utils/**',
-    '!app/utils/loadable.js',
-    '!app/utils/request.js',
-  ],
+  collectCoverageFrom: ['app/e2e/*'],
   coverageThreshold: {
     global: {
       statements: 98,
@@ -27,4 +21,5 @@ module.exports = {
   setupFiles: ['raf/polyfill'],
   testRegex: 'tests/.*\\.test\\.js$',
   snapshotSerializers: [],
+  reporters: ['default', 'jest-junit'],
 };

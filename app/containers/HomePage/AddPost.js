@@ -3,12 +3,13 @@ import { Button, Form, FormControl } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export default function AddPost({ addPost }) {
-  const initialPost = { title: '', body: '', image: null };
+  const initialPost = { title: '', body: '', image: null, file: '' };
   const [post, setPost] = useState(initialPost);
   const updatePost = change => {
     setPost(Object.assign({ ...post }, change));
   };
   const addImage = event => {
+    updatePost({ file: event.target.files[0] });
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
     reader.onloadend = e => {
@@ -30,6 +31,7 @@ export default function AddPost({ addPost }) {
       <Form>
         <FormControl
           placeholder="Enter a title"
+          id="new-article-title"
           value={post.title}
           onChange={event => updatePost({ title: event.target.value })}
         />
@@ -37,6 +39,7 @@ export default function AddPost({ addPost }) {
           value={post.body}
           onChange={event => updatePost({ body: event.target.value })}
           placeholder="Enter post content"
+          id="new-article-body"
           as="textarea"
           rows="3"
           style={{
@@ -75,10 +78,15 @@ export default function AddPost({ addPost }) {
           Cancel
         </Button>
         <Button
+          id="add-new-article"
           size="sm"
           style={{ flex: '1' }}
           onClick={() => {
-            addPost(post);
+            const formData = new FormData();
+            formData.append('head', post.title);
+            formData.append('text', post.body);
+            formData.append('img', post.file);
+            addPost(formData);
             setPost(initialPost);
           }}
         >

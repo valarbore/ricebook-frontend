@@ -12,3 +12,4 @@ export const UPDATE_AUTH = 'App/UPDATE_AUTH';
 export const UPDATE_USER = 'App/UPDATE_USER';
 export const AUTHENTICATE = 'App/AUTHENTICATE';
 export const LOG_OUT = 'App/LOG_OUT';
+export const UNKNOW_ERROR = 'Something wrong! Please try later!';
