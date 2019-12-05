@@ -15,7 +15,6 @@ import { compose } from 'redux';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import LandingHeader from 'components/LandingHeader';
-
 import { Card, Button } from 'react-bootstrap';
 import {
   makeSelectCurrentType,
@@ -47,6 +46,7 @@ export function LandingPage({
 }) {
   useInjectReducer({ key: 'landingPage', reducer });
   useInjectSaga({ key: 'landingPage', saga });
+  const strs = decodeURI(window.location.pathname).split('/');
   return (
     <Background>
       <Helmet>
@@ -56,32 +56,52 @@ export function LandingPage({
       <LandingHeader />
       <ContentWrapper>
         <Card className="card">
-          {currentType === LOGIN ? (
-            <Login
-              loginInfo={loginInfo}
-              setLoginInfo={setLoginInfo}
-              handleLogin={handleLogin}
-              location={location}
-            />
-          ) : (
-            <Register
-              setRegisterInfo={setRegisterInfo}
-              handleRegister={handleRegister}
-              registerInfo={registerInfo}
-              setRegisterInfoValid={setRegisterInfoValid}
-            />
+          {strs.length === 4 && (
+            <div style={{ margin: '80px auto 0 auto' }}>
+              <h3 style={{ color: 'red' }}>Login with Google Fail! </h3>
+              <h3 style={{ color: 'red' }}>
+                Username {strs[3]} Already Exist!
+              </h3>
+              <Button
+                variant="link"
+                onClick={() => {
+                  window.location.href = '/landing';
+                }}
+              >
+                Back to Login
+              </Button>
+            </div>
           )}
 
-          <Button
-            variant="link"
-            className="link-button"
-            id="type-change-btn"
-            onClick={changeType}
-          >
-            {currentType === LOGIN
-              ? messages.typeChangeHintRegister.defaultMessage
-              : messages.typeChangeHintLogin.defaultMessage}
-          </Button>
+          {strs.length === 2 &&
+            (currentType === LOGIN ? (
+              <Login
+                loginInfo={loginInfo}
+                setLoginInfo={setLoginInfo}
+                handleLogin={handleLogin}
+                location={location}
+              />
+            ) : (
+              <Register
+                setRegisterInfo={setRegisterInfo}
+                handleRegister={handleRegister}
+                registerInfo={registerInfo}
+                setRegisterInfoValid={setRegisterInfoValid}
+              />
+            ))}
+
+          {strs.length === 2 && (
+            <Button
+              variant="link"
+              className="link-button"
+              id="type-change-btn"
+              onClick={changeType}
+            >
+              {currentType === LOGIN
+                ? messages.typeChangeHintRegister.defaultMessage
+                : messages.typeChangeHintLogin.defaultMessage}
+            </Button>
+          )}
         </Card>
       </ContentWrapper>
     </Background>

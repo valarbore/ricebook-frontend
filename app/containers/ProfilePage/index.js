@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -19,6 +19,7 @@ import {
   updateProfileAction,
   updateAvatarAction,
   updateInfoChangeAction,
+  unlinkThirdAction,
 } from './actions';
 import reducer from './reducer';
 import saga from './saga';
@@ -35,6 +36,7 @@ export function ProfilePage({
   updateProfile,
   updateInfoChange,
   updateInfo,
+  unlinThird,
 }) {
   ProfilePage.propTypes = {
     user: PropTypes.object,
@@ -42,9 +44,34 @@ export function ProfilePage({
     updateProfile: PropTypes.func,
     updateInfoChange: PropTypes.func,
     updateInfo: PropTypes.object,
+    unlinThird: PropTypes.func,
   };
   useInjectReducer({ key: 'profilePage', reducer });
   useInjectSaga({ key: 'profilePage', saga });
+
+  const [GoogleLink, setGoogleLink] = useState(null);
+  useEffect(() => {
+    console.log(user);
+    // check whether user is linked with google
+    let googleIndex = -1;
+    for (let i = 0; i < user.third.length; i += 1) {
+      if (user.third[i].provider === 'google') {
+        googleIndex = i;
+        break;
+      }
+    }
+    console.log(googleIndex);
+    if (googleIndex === -1) setGoogleLink(null);
+    else setGoogleLink(user.third[googleIndex]);
+  }, [user, user.third]);
+  const ggredirectUrl =
+    process.env.NODE_ENV === 'production'
+      ? `https://ricebookbz31.herokuapp.com/auth/link/google/${user.username}`
+      : `http://localhost:8080/auth/link/google/${user.username}`;
+  const linkOrUnlink = () => {
+    if (GoogleLink === null) window.top.location = ggredirectUrl;
+    else unlinThird(GoogleLink);
+  };
   return (
     <div className="main-container clearfix">
       <Helmet>
@@ -84,6 +111,9 @@ export function ProfilePage({
           updateProfile={updateProfile}
           updateInfoChange={updateInfoChange}
         />
+        <Button style={{ marginLeft: '50px' }} onClick={linkOrUnlink}>
+          {GoogleLink === null ? 'Link with Google' : 'Unlink from Google'}
+        </Button>
       </div>
     </div>
   );
@@ -104,6 +134,7 @@ function mapDispatchToProps(dispatch) {
     updateAvatar: event => dispatch(updateAvatarAction(event.target.files[0])),
     updateProfile: data => dispatch(updateProfileAction(data)),
     updateInfoChange: data => dispatch(updateInfoChangeAction(data)),
+    unlinThird: data => dispatch(unlinkThirdAction(data)),
   };
 }
 

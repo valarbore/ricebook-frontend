@@ -54,3 +54,17 @@ export function updateProfileErrorAction(err) {
     err,
   };
 }
+
+export function unlinkThirdAction(data) {
+  return {
+    type: constants.UNLINK_THIRD,
+    data,
+  };
+}
+
+export function unlinkThirdSuccessAction(data) {
+  return {
+    type: constants.UNLINK_THIRD_SUCCESS,
+    data,
+  };
+}

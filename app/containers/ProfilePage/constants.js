@@ -15,6 +15,9 @@ export const UPDATE_PROFILE = 'app/ProfilePage/UPDATE_PROFILE';
 export const UPDATE_PROFILE_SUCCESS = 'app/ProfilePage/UPDATE_PROFILE_SUCCESS';
 export const UPDATE_PROFILE_ERROR = 'app/ProfilePage/UPDATE_PROFILE_ERROR';
 
+export const UNLINK_THIRD = 'app/ProfilePage/UNLINK_THIRD';
+export const UNLINK_THIRD_SUCCESS = 'app/ProfilePage/UNLINK_THIRD_SUCCESS';
+
 export const USERNAME = 'USERNAME';
 export const PASSWORD = 'PASSWORD';
 export const EMAIL = 'EMAIL';

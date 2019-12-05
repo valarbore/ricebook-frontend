@@ -34,7 +34,6 @@ function checkStatus(response) {
   error.response = response;
   throw error;
 }
-
 /**
  * Requests a URL, returning a promise
  *
@@ -43,21 +42,17 @@ function checkStatus(response) {
  *
  * @return {object}           The response data
  */
-export default function request(url, options, apiType) {
+export default function request(url, options) {
   const defaultOption = {
     method: 'GET',
     headers: { 'Content-type': 'application/json; charset=UTF-8' },
     credentials: 'include',
   };
   const newOption = Object.assign(defaultOption, options);
-  // console.log(newOption);
-  let api;
-  if (apiType === undefined) {
-    api =
-      process.env.NODE_ENV === 'production'
-        ? 'https://ricebookserverbz31.herokuapp.com'
-        : 'https://localhost:8080';
-  }
+  const api =
+    process.env.NODE_ENV === 'production'
+      ? 'https://ricebookbz31.herokuapp.com'
+      : 'http://localhost:8080';
   return fetch(api + url, newOption)
     .then(checkStatus)
     .then(parseJSON);

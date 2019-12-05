@@ -78,7 +78,7 @@ export function HomePage({
       <div className="home-page-right">
         <AddPost addPost={addPost} />
         <Search searchPost={searchPost} />
-        <PostsList posts={posts} />
+        <PostsList posts={posts} currentUser={user.username} />
       </div>
     </div>
   );

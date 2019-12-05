@@ -5,6 +5,7 @@ import {
   PASSWORD,
   UPDATE_PROFILE,
   UPDATE_AVATAR,
+  UNLINK_THIRD,
 } from './constants';
 import { showErrorAction, showSuceessAction } from '../Modal/actions';
 import { UNKNOW_ERROR } from '../App/constants';
@@ -12,6 +13,7 @@ import request from '../../utils/request';
 import {
   updateProfileSuccessAction,
   updateAvatarSuccessAction,
+  unlinkThirdSuccessAction,
 } from './actions';
 
 /**
@@ -93,8 +95,28 @@ function* updateAvatar(action) {
 function* watchUpdateAvatar() {
   yield takeLatest(UPDATE_AVATAR, updateAvatar);
 }
+
+function* unlinkThird(action) {
+  try {
+    const res = yield call(request, '/unlink', {
+      method: 'PUT',
+      body: JSON.stringify(action.data),
+    });
+    if (res.code === 0) {
+      yield put(unlinkThirdSuccessAction(res.data));
+    } else {
+      yield put(showErrorAction(`Unlink Fail! ${res.msg}`));
+    }
+  } catch (err) {
+    yield put(showErrorAction(UNKNOW_ERROR));
+  }
+}
+
+function* watchUnlinkThird() {
+  yield takeLatest(UNLINK_THIRD, unlinkThird);
+}
 // Individual exports for testing
 export default function* profilePageSaga() {
   // See example in containers/HomePage/saga.js
-  yield all([watchUpdateProfile(), watchUpdateAvatar()]);
+  yield all([watchUpdateProfile(), watchUpdateAvatar(), watchUnlinkThird()]);
 }

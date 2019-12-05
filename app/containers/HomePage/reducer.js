@@ -27,6 +27,14 @@ const homePageReducer = (state = initialState, action) =>
       case constants.SEARCH_POST_SUCCESS:
         draft.posts = action.data;
         break;
+      case constants.UPDATE_POST_SUCCESS:
+        draft.posts = state.posts.map(post => {
+          console.log('update success');
+          // eslint-disable-next-line no-underscore-dangle
+          if (post._id === action.post._id) return action.post;
+          return post;
+        });
+        break;
     }
   });
 

@@ -23,6 +23,10 @@ export default function Login({
       from = location.state.from;
     }
   }
+  const ggredirectUrl =
+    process.env.NODE_ENV === 'production'
+      ? 'https://ricebookbz31.herokuapp.com/auth/login/google'
+      : 'http://localhost:8080/auth/login/google';
   return (
     <Form
       id="signin-form"
@@ -73,6 +77,15 @@ export default function Login({
         }}
       >
         {messages.signIn.defaultMessage}
+      </Button>
+      <Button
+        style={{ margin: '20px auto 0 auto', display: 'block' }}
+        variant="link"
+        onClick={() => {
+          window.top.location = ggredirectUrl;
+        }}
+      >
+        Login With Google
       </Button>
     </Form>
   );

@@ -119,7 +119,10 @@ export function* addPost(action) {
 export function* watchAddPost() {
   yield takeLatest(constants.ADD_POST, addPost);
 }
-
+/**
+ * search post
+ * @param {*} action
+ */
 export function* searchPost(action) {
   const reg = new RegExp(action.data, 'i');
   // todo search posts from server
@@ -133,7 +136,10 @@ export function* searchPost(action) {
 export function* watchSearchPost() {
   yield takeLatest(constants.SEARCH_POST, searchPost);
 }
-
+/**
+ * update headline
+ * @param {*} action
+ */
 function* updateHeadline(action) {
   try {
     const response = yield call(request, '/headline', {
@@ -153,7 +159,55 @@ function* updateHeadline(action) {
 function* watchUpdateHeadline() {
   yield takeLatest(constants.UPDATE_HEADLINE, updateHeadline);
 }
-// Individual exports for testing
+/**
+ * update comment
+ * @param {*} action
+ */
+function* updateComment(action) {
+  try {
+    const response = yield call(request, `/article/${action.postId}`, {
+      method: 'PUT',
+      headers: {},
+      body: action.data,
+    });
+    if (response.code === 0) {
+      yield put(actions.updatePostSuccessAction(response.data));
+    } else {
+      yield put(showErrorAction(`Update Comment fail! ${response.msg}`));
+    }
+  } catch (err) {
+    yield put(showErrorAction(UNKNOW_ERROR));
+  }
+}
+
+function* watchUpdateComment() {
+  yield takeLatest(constants.UPDATE_COMMENT, updateComment);
+}
+
+/**
+ * update post
+ * @param {*} action
+ */
+function* updatePost(action) {
+  try {
+    const response = yield call(request, `/article/${action.postId}`, {
+      method: 'PUT',
+      headers: {},
+      body: action.data,
+    });
+    if (response.code === 0) {
+      yield put(actions.updatePostSuccessAction(response.data));
+    } else {
+      yield put(showErrorAction(`Update Post fail! ${response.msg}`));
+    }
+  } catch (err) {
+    yield put(showErrorAction(UNKNOW_ERROR));
+  }
+}
+
+function* watchUpdatePost() {
+  yield takeLatest(constants.UPDATE_POST, updatePost);
+}
 export default function* homePageSaga() {
   // See example in containers/HomePage/saga.js
   yield all([
@@ -164,5 +218,7 @@ export default function* homePageSaga() {
     watchSearchPost(),
     watchUnfollow(),
     watchUpdateHeadline(),
+    watchUpdateComment(),
+    watchUpdatePost(),
   ]);
 }

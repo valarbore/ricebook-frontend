@@ -8,6 +8,7 @@ import { push } from 'connected-react-router';
 import * as contants from './constants';
 import * as actions from './actions';
 import request from '../../utils/request';
+import { showErrorAction } from '../Modal/actions';
 
 /**
  * authenticate user by using token and id
@@ -40,7 +41,16 @@ export function* logout() {
   // todo notify server log out
   // clear localstorage
   // redirect to landingpage
-  yield put(push('/landing'));
+  try {
+    const response = yield call(request, '/logout', { method: 'PUT' });
+    if (response.code === 0) {
+      yield put(push('/landing'));
+    } else {
+      yield put(showErrorAction(`Log out fail! ${response.msg}`));
+    }
+  } catch (err) {
+    yield put(showErrorAction(`Log out fail! ${err}`));
+  }
 }
 
 export function* watchLogout() {

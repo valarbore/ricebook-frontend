@@ -25,3 +25,9 @@ export const SEARCH_POST_ERROR = 'app/HomePage/SEARCH_POST_ERROR';
 
 export const UPDATE_HEADLINE = 'app/HomePage/UPDATE_HEADLINE';
 export const UPDATE_HEADLINE_SUCCESS = 'app/HomePage/UPDATE_HEADLINE_SUCCESS';
+
+export const UPDATE_COMMENT = 'app/HomePage/UPDATE_COMMENT';
+export const UPDATE_COMMENT_SUCCESS = 'app/HomePage/UPDATE_COMMENT_SUCCESS';
+
+export const UPDATE_POST = 'app/HomePage/UPDATE_POST';
+export const UPDATE_POST_SUCCESS = 'app/HomePage/UPDATE_POST_SUCCESS';

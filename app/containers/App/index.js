@@ -23,6 +23,7 @@ import { useInjectSaga } from 'utils/injectSaga';
 import ProfilePage from 'containers/ProfilePage';
 import NormalHeader from 'components/NormalHeader';
 import Footer from 'components/Footer';
+import Error from 'containers/Error';
 import GlobalStyle from '../../global-styles';
 import reducer from './reducer';
 import saga from './saga';
@@ -73,7 +74,8 @@ export function App({ isAuthenticated, authenticate }) {
         <PrivateRoute path="/profile/:uid">
           <ProfilePage />
         </PrivateRoute>
-        <Route exact path="/landing" component={LandingPage} />
+        <Route path="/error" component={Error} />
+        <Route path="/landing/:type?/:username?" component={LandingPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <Footer />

@@ -98,3 +98,33 @@ export function updateHeadlineSuccessAction(data) {
     data,
   };
 }
+
+export function updateCommentAction(postId, data) {
+  return {
+    type: constants.UPDATE_COMMENT,
+    postId,
+    data,
+  };
+}
+
+export function updateCommentSuccessAction(newPost) {
+  return {
+    type: constants.UPDATE_COMMENT_SUCCESS,
+    post: newPost,
+  };
+}
+
+export function updatePostAction(postId, data) {
+  return {
+    type: constants.UPDATE_POST,
+    postId,
+    data,
+  };
+}
+
+export function updatePostSuccessAction(newPost) {
+  return {
+    type: constants.UPDATE_POST_SUCCESS,
+    post: newPost,
+  };
+}

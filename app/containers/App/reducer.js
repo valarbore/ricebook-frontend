@@ -13,9 +13,11 @@ import {
   EMAIL,
   ZIPCODE,
   UPDATE_AVATAR_SUCCESS,
+  UNLINK_THIRD_SUCCESS,
 } from 'containers/ProfilePage/constants';
 import { UPDATE_HEADLINE_SUCCESS } from 'containers/HomePage/constants';
 import { UPDATE_AUTH, UPDATE_USER } from './constants';
+
 // The initial state of the App
 export const initialState = {
   isAuthenticated: null,
@@ -26,6 +28,7 @@ export const initialState = {
     dob: '',
     zipcode: '',
     headline: '',
+    third: [],
   },
 };
 
@@ -51,6 +54,8 @@ const appReducer = (state = initialState, action) =>
       case UPDATE_HEADLINE_SUCCESS:
         draft.profile.headline = action.data;
         break;
+      case UNLINK_THIRD_SUCCESS:
+        draft.profile.third = action.data;
     }
   });
 
